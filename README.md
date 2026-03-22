@@ -65,6 +65,7 @@ NAS (source of truth)
 ```bash
 ollama pull llama3.1:8b
 ollama pull nomic-embed-text
+ollama pull qwen3:4b
 ```
 
 ### 2. Run Open WebUI
@@ -193,11 +194,66 @@ Sources cited in UI
 
 | Experiment | Status | Finding |
 |---|---|---|
-| Model comparison (Llama vs Mistral vs Qwen) | Planned | — |
+| Model comparison (Llama 3.1 8B vs Qwen 3 4B) | In Progress | — |
 | Chunking strategy evaluation | Planned | — |
 | RAG evaluation framework | Planned | — |
 | QLoRA fine-tuning | Planned | — |
 
+
+### Experiment 1: Model Comparison (Llama 3.1 8B vs Qwen 3 4B)
+
+**Setup:** Ran identical prompts in Open WebUI Arena mode across three 
+categories: technical explanation, learning coaching, and RAG with a 
+personal knowledge document.
+
+**Models tested:**
+- Llama 3.1 8B Instruct (older, larger)
+- Qwen 3 4B (newer, smaller, built-in reasoning)
+- Arena for side-by-side comparison
+
+![Model Selector](docs/images/model-selector.png)
+
+**Key observations:**
+
+| Dimension | Llama 3.1 8B | Qwen 3 4B |
+|---|---|---|
+| Speed | Faster | Slower (reasoning step adds time) |
+| Teaching style | Textbook, structured | Conversational, uses analogies and examples |
+| Context usage | Latched onto recent topics | Used most relevant context intelligently |
+| RAG reasoning | Inserted retrieved content literally | Evaluated which retrieved content was actionable |
+| Math accuracy | Failed basic arithmetic (60+30+10 ≠ 180) | Correctly calculated 100 min focused + 80 min breaks = 3 hours |
+| Reasoning transparency | None | Shows "Thought for X seconds" — built-in chain of thought |
+
+**Prompts used:**
+1. "Explain how a for loop works in Python as if I'm a beginner"
+2. "I keep procrastinating on studying. What strategies would actually help?"
+3. "I have 3 hours to study this weekend. How should I split the time 
+   between reading and practice?"
+4. RAG prompt: "Based on what you know about my study habits, design 
+   a study plan for this weekend" (with my-study-habits.txt attached)
+
+**Finding:** For personal coaching and learning use cases, Qwen 3 4B 
+consistently outperformed Llama 3.1 8B despite being half the size. 
+Qwen's built-in reasoning step produced more personalized, pedagogically 
+sound responses ("Your 3-Hour Weekend Study Plan (100 Minutes of Focused Time + 80 Minutes of Active Breaks)"). 
+Llama tended toward generic structured answers and made a basic arithmetic error. 
+
+The RAG comparison was the most revealing: both models retrieved the 
+same source document, but Qwen filtered it intelligently — omitting 
+irrelevant details (my morning matcha routine) and citing specific personal context in its reasoning (built-in walks to the study plan because I mentioned, "I spend time outdoors" and don't have time for long study sessions). 
+Llama gave generic feedback: "Since you're an active person who likes to spend time outdoors" ... "simply spend time outside during the day."
+
+![Arena Mode Comparison](docs/images/arena-comparison.png)
+
+**Conclusion:** A newer smaller model can outperform an older larger one 
+when the task requires reasoning and personalization rather than raw 
+knowledge recall. For this project, Qwen 3 4B is the better fit.
+
+**Next steps:** **Next steps:** Re-run this comparison on a task where knowledge depth 
+matters more than reasoning — to test whether Llama's larger size becomes 
+an advantage. Separately, re-run the RAG test after adding more personal 
+context to the knowledge base to see if richer data narrows or widens the 
+gap between models.
 ---
 
 ## What I Learned
