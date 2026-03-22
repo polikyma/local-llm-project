@@ -46,6 +46,7 @@ NAS (source of truth)
 | [Ollama](https://ollama.com) | Model serving | Dead simple GPU inference, one command to run any model |
 | [Llama 3.1 8B Instruct](https://ollama.com/library/llama3.1) | Base model | Best all-around open model for consumer GPU (<24GB VRAM) |
 | [Open WebUI](https://github.com/open-webui/open-webui) | Chat interface + RAG | Built-in RAG, knowledge base management, no code required |
+| [Open WebUI Arena Mode](https://github.com/open-webui/open-webui) | Side-by-side model evaluation | Built-in comparison tool, no extra setup required |
 | [nomic-embed-text](https://ollama.com/library/nomic-embed-text) | Embeddings | Local, high quality, runs via Ollama |
 | Docker | Container runtime | Isolates Open WebUI with persistent volume storage |
 | NAS | Document storage | Network-accessible source of truth for all knowledge base files |
@@ -209,7 +210,6 @@ personal knowledge document.
 **Models tested:**
 - Llama 3.1 8B Instruct (older, larger)
 - Qwen 3 4B (newer, smaller, built-in reasoning)
-- Arena for side-by-side comparison
 
 ![Model Selector](docs/images/model-selector.png)
 
@@ -241,7 +241,7 @@ Llama tended toward generic structured answers and made a basic arithmetic error
 The RAG comparison was the most revealing: both models retrieved the 
 same source document, but Qwen filtered it intelligently — omitting 
 irrelevant details (my morning matcha routine) and citing specific personal context in its reasoning (built-in walks to the study plan because I mentioned, "I spend time outdoors" and don't have time for long study sessions). 
-Llama gave generic feedback: "Since you're an active person who likes to spend time outdoors" ... "simply spend time outside during the day."
+Llama gave generic feedback ("Since you're an active person who likes to spend time outdoors" ... "simply spend time outside during the day").
 
 ![Arena Mode Comparison](docs/images/arena-comparison.png)
 
@@ -249,7 +249,7 @@ Llama gave generic feedback: "Since you're an active person who likes to spend t
 when the task requires reasoning and personalization rather than raw 
 knowledge recall. For this project, Qwen 3 4B is the better fit.
 
-**Next steps:** **Next steps:** Re-run this comparison on a task where knowledge depth 
+**Next steps:** Re-run this comparison on a task where knowledge depth 
 matters more than reasoning — to test whether Llama's larger size becomes 
 an advantage. Separately, re-run the RAG test after adding more personal 
 context to the knowledge base to see if richer data narrows or widens the 
